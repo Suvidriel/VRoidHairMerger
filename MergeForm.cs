@@ -74,7 +74,7 @@ namespace VRoidHairMerger
                         File.Exists(destPath + "\\preset.json"))
                     {
                         // Lets read the preset files
-                       // MessageBox.Show("If VRoid shows an error when starting the program after this then make sure to go manually delete the destination preset folder:\r\n\r\n" + destPath, "Reminder");
+                        MessageBox.Show("If VRoid shows an error when starting the program after this then make sure to go manually delete the destination preset folder:\r\n\r\n" + destPath, "Reminder");
 
                         // Deserialize the preset json to dynamic
                         dynamic sourceData = JObject.Parse(File.ReadAllText(sourcePath + "\\preset.json", Encoding.UTF8));
@@ -126,8 +126,6 @@ namespace VRoidHairMerger
 
                         // Loop through bones
 
-
-
                         string json = Newtonsoft.Json.JsonConvert.SerializeObject(destData);
 
                         Encoding utf8WithoutBom = new UTF8Encoding(false);
@@ -137,7 +135,7 @@ namespace VRoidHairMerger
                     }
                     else
                     {
-                        MessageBox.Show("Either preset-file doesn't exist");
+                        MessageBox.Show("Either of the preset-files doesn't exist");
                     }
 
                 }
