@@ -6,6 +6,8 @@ VRoidHairMerger takes source hair preset and adds it to the destination preset. 
 
 
 ## Usage
+Requires .NET 4.7.2
+
 1. Make sure the hair asset you want to add to your character's hair is saved as hair preset
 2. Save your character's hair as a hair preset in VRoid
 3. Run VRoidHairMerger
