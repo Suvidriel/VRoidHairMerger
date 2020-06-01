@@ -132,6 +132,7 @@ namespace VRoidHairMerger
 
                         File.WriteAllText(destPath + "\\preset.json", json, utf8WithoutBom);
 
+                        MessageBox.Show("Merge complete. File saved as:\r\n" + destPath + "\\preset.json");
                     }
                     else
                     {
