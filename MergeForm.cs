@@ -130,7 +130,7 @@ namespace VRoidHairMerger
 
                         Encoding utf8WithoutBom = new UTF8Encoding(false);
 
-                        File.WriteAllText(destPath + "\\preset2.json", json, utf8WithoutBom);
+                        File.WriteAllText(destPath + "\\preset.json", json, utf8WithoutBom);
 
                     }
                     else
