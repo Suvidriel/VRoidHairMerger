@@ -11,6 +11,9 @@ VRoidHairMerger takes source hair preset and adds it to the destination preset. 
 3. Run VRoidHairMerger
 4. Import the destination hair preset on your existing character
 
+## Things to note
+VRoidHairMerger does not currently give new unique IDs to the merged objects. This means you should not combine same presets more than once.
+
 ## Error cases
 The program looks the hair presets in AppData\LocalLow\pixic\VRoidStudio\hair_presets. If your presets are saved elsewhere then you need to change the path in the source.
 
