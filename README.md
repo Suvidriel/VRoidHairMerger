@@ -2,7 +2,7 @@
 
 At the time of making this application VRoid did not contain functionality to add hair presets to existing hair.
 
-VRoidHairMerger takes source hair preset and adds it to the destination preset. This allows purchase of hair presets from booth and adding them to your exitsting VRoid model.
+VRoidHairMerger takes source hair preset and adds it to the destination preset. This allows easy addition of hair assets like ears, hair accessories etc to existing characters.
 
 
 ## Usage
@@ -17,6 +17,4 @@ Requires .NET 4.7.2
 VRoidHairMerger does not currently give new unique IDs to the merged objects. This means you should not combine same presets more than once.
 
 ## Error cases
-The program looks the hair presets in AppData\LocalLow\pixic\VRoidStudio\hair_presets. If your presets are saved elsewhere then you need to change the path in the source.
-
 If VRoid shows an error message after the merge then something went wrong and the destination hair preset needs to be manually removed.
