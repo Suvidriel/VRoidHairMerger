@@ -16,8 +16,13 @@ namespace VRoidHairMerger
 {
     public partial class MergeForm : Form
     {
+
+        private string HairPath { get; set; }
+
         public MergeForm()
         {
+            HairPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\LocalLow\\pixiv\\VRoidStudio\\hair_presets";
+
             InitializeComponent();
 
             BindPresets();
@@ -29,7 +34,9 @@ namespace VRoidHairMerger
         private void BindPresets()
         {
             // Get the path to hair_presets. This might need a better approach
-            String path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\LocalLow\\pixiv\\VRoidStudio\\hair_presets";
+            String path = HairPath;
+
+            hairPath.Text = path;
 
             if(!Directory.Exists(path))
             {
@@ -64,7 +71,7 @@ namespace VRoidHairMerger
                 else
                 {
                     // Get the preset paths
-                    String presetPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\LocalLow\\pixiv\\VRoidStudio\\hair_presets";
+                    String presetPath = HairPath;
 
                     string sourcePath = presetPath + "\\" + sourcePreset.Text;
                     string destPath = presetPath + "\\" + destPreset.Text;
@@ -82,7 +89,7 @@ namespace VRoidHairMerger
 
                         int c = destData.Hairishes.Count;
 
-                        List<string> materialGuids = new List<string>();
+                        List<string> materialGuids = new List<string>(); // List of hair guids that we added
 
                         // Loop through the hair array
                         for (int i=0;i< sourceData.Hairishes.Count;i++)
@@ -95,9 +102,11 @@ namespace VRoidHairMerger
                                 // Copy hair data
                                 destData.Hairishes.Add(sourceData.Hairishes[i]);
 
+                                // Save material guids from node
                                 string materialID = sourceData.Hairishes[i].Param._MaterialValueGUID;
                                 if (!materialGuids.Contains(materialID))
                                     materialGuids.Add(materialID);
+
                                 string materialInheritID = sourceData.Hairishes[i].Param._MaterialInheritedValueGUID;
                                 if(materialInheritID.Length > 0)
                                 {
@@ -105,10 +114,27 @@ namespace VRoidHairMerger
                                         materialGuids.Add(materialInheritID);
                                 }
 
+                                // Check materials also from children since some hair presets hide materials to child level
+                                for (int j = 0; j < sourceData.Hairishes[i].Children.Count; j++)
+                                {
+                                    string cmaterialID = sourceData.Hairishes[i].Children[j].Param._MaterialValueGUID;
+                                    if (cmaterialID.Length > 0)
+                                    {
+                                        if (!materialGuids.Contains(cmaterialID))
+                                            materialGuids.Add(cmaterialID);
+                                    }
+
+                                    string cmaterialInheritID = sourceData.Hairishes[i].Children[j].Param._MaterialInheritedValueGUID;
+                                    if (cmaterialInheritID.Length > 0)
+                                    {
+                                        if (!materialGuids.Contains(cmaterialInheritID))
+                                            materialGuids.Add(cmaterialInheritID);
+                                    }
+                                }
+
 
                             }
                         }
-                        //MessageBox.Show("Material count: " + materialGuids.Count);
 
                         // Loop through materials
                         for (int i = 0; i < sourceData._MaterialSet._Materials.Count; i++)
@@ -124,8 +150,10 @@ namespace VRoidHairMerger
                         }
 
 
-                        // Loop through bones
+                        // TODO: Loop through bones
 
+
+                        // Save hair preset
                         string json = Newtonsoft.Json.JsonConvert.SerializeObject(destData);
 
                         Encoding utf8WithoutBom = new UTF8Encoding(false);
