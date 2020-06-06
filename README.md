@@ -2,7 +2,7 @@
 
 At the time of making this application VRoid did not contain functionality to add hair presets to existing hair.
 
-VRoidHairMerger takes source hair preset and adds it to the destination preset. This allows ease addition of ready made hair assets to existing characters.
+VRoidHairMerger takes source hair preset and adds it to the destination preset. This allows easy addition of hair assets like ears, hair accessories etc to existing characters.
 
 
 ## Usage
