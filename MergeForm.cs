@@ -150,7 +150,14 @@ namespace VRoidHairMerger
                         }
 
 
-                        // TODO: Loop through bones
+                        // Loop through bones
+                        for (int i = 0; i < sourceData._HairBoneStore.Groups.Count; i++)
+                        {
+                            // Merge all the hair bones. A nice fix would be to merge only ones related to the hairs we imported
+                            destData._HairBoneStore.Groups.Add(sourceData._HairBoneStore.Groups[i]);
+                        }
+                            
+
 
 
                         // Save hair preset
