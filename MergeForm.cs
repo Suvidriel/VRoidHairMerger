@@ -99,6 +99,8 @@ namespace VRoidHairMerger
                         int c = destData.Hairishes.Count;
 
                         List<string> materialGuids = new List<string>(); // List of hair guids that we added
+                        List<string> hairGuids = new List<string>(); // List of hair guids we're adding
+
 
                         // Loop through the hair array
                         for (int i=0;i< sourceData.Hairishes.Count;i++)
@@ -123,9 +125,19 @@ namespace VRoidHairMerger
                                         materialGuids.Add(materialInheritID);
                                 }
 
+                                // Add hair guids - these will be used to import only needed bones
+                                if (!hairGuids.Contains((string)sourceData.Hairishes[i].Id))
+                                    hairGuids.Add((string)sourceData.Hairishes[i].Id);
+
+
                                 // Check materials also from children since some hair presets hide materials to child level
                                 for (int j = 0; j < sourceData.Hairishes[i].Children.Count; j++)
                                 {
+
+                                    if (!hairGuids.Contains((string)sourceData.Hairishes[i].Children[j].Id))
+                                        hairGuids.Add((string)sourceData.Hairishes[i].Children[j].Id);
+
+
                                     string cmaterialID = sourceData.Hairishes[i].Children[j].Param._MaterialValueGUID;
                                     if (cmaterialID.Length > 0)
                                     {
@@ -162,8 +174,18 @@ namespace VRoidHairMerger
                         // Loop through bones
                         for (int i = 0; i < sourceData._HairBoneStore.Groups.Count; i++)
                         {
-                            // Merge all the hair bones. A nice fix would be to merge only ones related to the hairs we imported
-                            destData._HairBoneStore.Groups.Add(sourceData._HairBoneStore.Groups[i]);
+                            // Make sure all hairs exist or skip the bone. Importing bones with non-existing hairs will crash VRoid
+                            bool okToAdd = true;
+                            for (int j = 0; j < sourceData._HairBoneStore.Groups[i].Hairs.Count; j++)
+                            {
+                                if (!hairGuids.Contains((string)sourceData._HairBoneStore.Groups[i].Hairs[j]))
+                                {
+                                    okToAdd = false;
+                                    break;
+                                }
+                            }
+                            if(okToAdd)
+                                destData._HairBoneStore.Groups.Add(sourceData._HairBoneStore.Groups[i]);
                         }
                             
 
