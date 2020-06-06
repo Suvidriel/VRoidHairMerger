@@ -38,19 +38,28 @@ namespace VRoidHairMerger
 
             hairPath.Text = path;
 
-            if(!Directory.Exists(path))
+            sourcePreset.Items.Clear();
+            destPreset.Items.Clear();
+
+            if (!Directory.Exists(path))
             {
                 MessageBox.Show("Couldn't find the hair presets folder:\r\n" + path);
-                Application.Exit();
+                return;
             }
+
+
 
             string[] presets = Directory.GetDirectories(path);
             foreach(string pres in presets)
             {
                 string p = new DirectoryInfo(pres).Name;
 
-                sourcePreset.Items.Add(p);
-                destPreset.Items.Add(p);
+                if(p.Contains("preset"))
+                {
+                    sourcePreset.Items.Add(p);
+                    destPreset.Items.Add(p);
+                }
+
             }
 
 
@@ -173,6 +182,22 @@ namespace VRoidHairMerger
                     {
                         MessageBox.Show("Either of the preset-files doesn't exist");
                     }
+
+                }
+            }
+        }
+
+        private void PathChangeButton_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    HairPath = fbd.SelectedPath;
+                    BindPresets();
+                    
 
                 }
             }
