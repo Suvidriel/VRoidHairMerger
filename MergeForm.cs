@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -21,7 +22,9 @@ namespace VRoidHairMerger
 
         public MergeForm()
         {
-            HairPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\LocalLow\\pixiv\\VRoidStudio\\hair_presets";
+            
+
+            HairPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + ConfigurationManager.AppSettings["PresetPath"]; //"\\AppData\\LocalLow\\pixiv\\VRoidStudio\\hair_presets";
 
             InitializeComponent();
 
