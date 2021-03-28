@@ -1,15 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web.Helpers;
 using System.Windows.Forms;
 
 
@@ -22,9 +16,9 @@ namespace VRoidHairMerger
 
         public MergeForm()
         {
-            
 
-            HairPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + ConfigurationManager.AppSettings["PresetPath"]; //"\\AppData\\LocalLow\\pixiv\\VRoidStudio\\hair_presets";
+
+            HairPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + ConfigurationManager.AppSettings["PresetPath"]; 
 
             InitializeComponent();
 
@@ -52,12 +46,12 @@ namespace VRoidHairMerger
 
 
 
-            string[] presets = Directory.GetDirectories(path);
-            foreach(string pres in presets)
+            string[] presets = Directory.GetDirectories(path, "preset*");
+            foreach (string pres in presets)
             {
                 string p = new DirectoryInfo(pres).Name;
 
-                if(p.Contains("preset"))
+                if (p.Contains("preset"))
                 {
                     sourcePreset.Items.Add(p);
                     destPreset.Items.Add(p);
@@ -89,7 +83,7 @@ namespace VRoidHairMerger
                     string destPath = presetPath + "\\" + destPreset.Text;
 
                     // Make sure preset json-files exist
-                    if(File.Exists(sourcePath + "\\preset.json") &&
+                    if (File.Exists(sourcePath + "\\preset.json") &&
                         File.Exists(destPath + "\\preset.json"))
                     {
                         // Lets read the preset files
@@ -106,12 +100,12 @@ namespace VRoidHairMerger
 
 
                         // Loop through the hair array
-                        for (int i=0;i< sourceData.Hairishes.Count;i++)
+                        for (int i = 0; i < sourceData.Hairishes.Count; i++)
                         {
-                            
+
 
                             // Skip base hair since multiple instances will crash VRoid
-                            if(Convert.ToInt32(sourceData.Hairishes[i].Type ?? "0") != 3 )
+                            if (Convert.ToInt32(sourceData.Hairishes[i].Type ?? "0") != 3)
                             {
                                 // Copy hair data
                                 destData.Hairishes.Add(sourceData.Hairishes[i]);
@@ -122,7 +116,7 @@ namespace VRoidHairMerger
                                     materialGuids.Add(materialID);
 
                                 string materialInheritID = sourceData.Hairishes[i].Param._MaterialInheritedValueGUID;
-                                if(materialInheritID.Length > 0)
+                                if (materialInheritID.Length > 0)
                                 {
                                     if (!materialGuids.Contains(materialInheritID))
                                         materialGuids.Add(materialInheritID);
@@ -163,11 +157,11 @@ namespace VRoidHairMerger
                         // Loop through materials
                         for (int i = 0; i < sourceData._MaterialSet._Materials.Count; i++)
                         {
-                            if(materialGuids.Contains((string)sourceData._MaterialSet._Materials[i]._Id))
+                            if (materialGuids.Contains((string)sourceData._MaterialSet._Materials[i]._Id))
                             {
                                 destData._MaterialSet._Materials.Add(sourceData._MaterialSet._Materials[i]);
                                 // Copy material texture as well
-                                if(!File.Exists(destPath + "\\materials\\rendered_textures\\" + sourceData._MaterialSet._Materials[i]._MainTextureId + ".png"))
+                                if (!File.Exists(destPath + "\\materials\\rendered_textures\\" + sourceData._MaterialSet._Materials[i]._MainTextureId + ".png"))
                                     File.Copy(sourcePath + "\\materials\\rendered_textures\\" + sourceData._MaterialSet._Materials[i]._MainTextureId + ".png",
                                         destPath + "\\materials\\rendered_textures\\" + sourceData._MaterialSet._Materials[i]._MainTextureId + ".png");
                             }
@@ -187,10 +181,10 @@ namespace VRoidHairMerger
                                     break;
                                 }
                             }
-                            if(okToAdd)
+                            if (okToAdd)
                                 destData._HairBoneStore.Groups.Add(sourceData._HairBoneStore.Groups[i]);
                         }
-                            
+
 
 
 
@@ -222,7 +216,7 @@ namespace VRoidHairMerger
                 {
                     HairPath = fbd.SelectedPath;
                     BindPresets();
-                    
+
 
                 }
             }
