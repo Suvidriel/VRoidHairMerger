@@ -93,7 +93,7 @@ namespace VRoidHairMerger
                         dynamic sourceData = JObject.Parse(File.ReadAllText(sourcePath + "\\preset.json", Encoding.UTF8));
                         dynamic destData = JObject.Parse(File.ReadAllText(destPath + "\\preset.json", Encoding.UTF8));
 
-                        int c = destData.Hairishes.Count;
+                        //int c = destData.Hairishes.Count;
 
                         List<string> materialGuids = new List<string>(); // List of hair guids that we added
                         List<string> hairGuids = new List<string>(); // List of hair guids we're adding
