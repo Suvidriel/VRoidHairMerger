@@ -4,6 +4,8 @@ At the time of making this application VRoid did not contain functionality to ad
 
 VRoidHairMerger takes source hair preset and adds it to the destination preset. This allows easy addition of hair assets like ears, hair accessories etc to existing characters.
 
+This application only works with VRoid Studio 0.14 or older
+
 
 ## Usage
 Requires .NET 4.7.2
